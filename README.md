@@ -18,14 +18,13 @@ https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
 ## Instalación
 
-Ver [INSTALL.md](INSTALL.md) para instrucciones detalladas.
+On Windows, simply double-click the file and, if prompted for permission, grant it.
 
-Resumen:
+On Linux, right-click the AppImage file and grant permission via the ‘Permissions’ menu. Alternatively, in the terminal, grant permission using: chmod +x ./Astro-Nex-Dark-v2.1.AppImage
 
-```bash
-# 1. Paquetes del sistema (Ubuntu/Debian)
-sudo apt install python3 python3-pip python3-gi python3-gi-cairo \
-    gir1.2-gtk-3.0 libgtk-3-0 libcairo2 libpango-1.0-0 evince eog
+On Debian-based Linux distributions (Ubuntu, Linux Mint, etc.), you can install it using a .deb file. Open the terminal where the file is located and run this command: sudo apt install ./astro-nex-dark-v2.1.deb
+Enter your password and press Enter.
+
 
 # 2. Instalar fuente astrológica (CRÍTICO)
 mkdir -p ~/.fonts
