@@ -2,32 +2,19 @@
 
 Astronex is a program for calculating and drawing astrological charts according to the API Method. Used in Huber method. Python 3 version.
 
-Esta versión está migrada a **Python 3.12** con **GTK3** (vía PyGObject) y
-**Swiss Ephemeris** (vía pyswisseph). Reemplaza la versión original de
-Python 2.7 + PyGTK 2 escrita por José Antonio Rodríguez (✝ 2022).
+In the ‘Releases’ section, you’ll find four files:
 
-## Características
+## Windows
 
-- Cálculo de carta natal (Radix), Casas, Nodal, Causal, Dharma, Local, Perfil,
-  Integración, Clic individual, Radix-Causal, Radix-Dharma
-- Tránsitos, Progresión Secundaria, Revolución Solar
-- Biografía sincronizada (PE — Punto de Edad)
-- Diagramas de frustración/estrés, Planetograma, Paarwabe (panal de pareja)
-- Comparación doble y triple (master/clic)
-- Exportación a PNG y PDF
-- Importación AAF para intercambiar cartas
-- Modo oscuro (auto-detecta tema del sistema)
-- Atajos: F2 modificar carta, F3 click clock, F4 calendario, F5 ahora,
-  F6 Punto Edad, Ctrl+Y ciclos, Ctrl+B explorador, Ctrl+Shift+J armónico 10,
-  tecla G tabla de grados persistente, y más.
+- Astro-Nex-Dark-v2.1-setup.exe (Windows installer)
+- Astro-Nex-Portable.exe (Portable version)
 
-## Requisitos
+## Linux
 
-- **Linux** (probado en Ubuntu 24.04, Debian 12)
-- **Python 3.10+** (recomendado 3.12)
-- **GTK 3.24+**
-- **Cairo / Pango / GLib** (sistema)
-- Conexión a internet solo para instalación inicial
+- Astro-Nex-Dark-v2.1.AppImage
+- astro-nex-dark-v2.1.deb
+
+
 
 ## Instalación
 
