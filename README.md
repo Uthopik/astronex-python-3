@@ -30,5 +30,5 @@ sudo apt install ./astro-nex-dark-v2.1.deb
 ## Other links of interest
 
 - The project’s official website: (https://www.astro-nex.net)
-- Issaias18’s Python 3 version of Astronex: (https://github.com/isaiass18/Astro-Nex-Python-3)
+- Isaiass18’s Python 3 version of Astronex: (https://github.com/isaiass18/Astro-Nex-Python-3)
 
