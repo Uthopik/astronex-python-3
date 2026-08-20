@@ -26,6 +26,8 @@ chmod +x ./Astro-Nex-Dark-v2.1.AppImage
 - On Debian-based Linux distributions (Ubuntu, Linux Mint,...), you can install it using a .deb file. Open the terminal where the file is located and run this command:
 sudo apt install ./astro-nex-dark-v2.1.deb
 
+- On Arch-base Linux distributions (Cachy, Manjaro, Endeavour,...) you can install it via AUR: yay -S astronex
+
 
 ## Other links of interest
 
