@@ -14,7 +14,7 @@ In the ‘Releases’ section, you’ll find four files:
 - Astro-Nex-Dark-v2.1.AppImage
 - astro-nex-dark-v2.1.deb
 
-
+https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
 ## Instalación
 
