@@ -16,7 +16,7 @@ In the ‘Releases’ section, you’ll find four files:
 
 https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
-## Instalación
+## Instalation
 
 - On Windows, simply double-click the file and, if prompted for permission, grant it.
 
@@ -27,60 +27,8 @@ chmod +x ./Astro-Nex-Dark-v2.1.AppImage
 sudo apt install ./astro-nex-dark-v2.1.deb
 
 
-# 2. Instalar fuente astrológica (CRÍTICO)
-mkdir -p ~/.fonts
-cp astronex/resources/Astro-Nex.ttf ~/.fonts/
-fc-cache -f -v
+## Other links of interest
 
-# 3. Dependencias Python
-pip3 install --break-system-packages --use-pep517 -r requirements.txt
+- The project’s official website: (https://www.astro-nex.net)
+- Issaias18’s Python 3 version of Astronex: (https://github.com/isaiass18/Astro-Nex-Python-3)
 
-# 4. Ejecutar
-python3 nex.py
-```
-
-## Alternativa: Docker
-
-Si prefieres no instalar dependencias en tu sistema:
-
-```bash
-cd docker-py3
-docker compose up
-```
-
-Requiere WSLg en Windows o un X server en Linux nativo.
-
-## Estructura
-
-- `nex.py` — entry point principal
-- `pysw.py` — wrapper de Swiss Ephemeris (reemplaza `_pysw.so` antiguo)
-- `astronex/` — código principal
-  - `gui/` — interfaz GTK3
-  - `drawing/` — dibujo Cairo de cartas
-  - `surfaces/` — superficies de export (PNG, PDF, etc.)
-  - `db/local.db` — base de datos de localidades mundiales
-  - `resources/` — fuente, iconos, charts.db inicial
-  - `locale/` — traducciones (es/en/ca/de)
-- `docker-py3/` — Dockerfile + docker-compose.yml para correr en contenedor
-
-## Datos de usuario
-
-La aplicación crea y mantiene los datos en `~/.Astronex/`:
-
-- `charts.db` — base de datos SQLite con tus cartas
-- `cfg.ini` — configuración personalizada (colores, fuentes, locale)
-- `mruch.pkl` — pool de cartas recientes
-- `coups.pkl` — pool de parejas
-
-## Licencia
-
-GPL. Ver el archivo `astronex/resources/COPYING`.
-
-## Autores
-
-- **José Antonio Rodríguez** — autor original (Py2 + PyGTK2)
-- **José Alejandro Pech Interian** — migración Py3 + GTK3 (2026)
-- **Cliente**: Elías José Sagardia
-- **Documentación**: Joan Solé (api-ediciones)
-
-https://www.astro-nex.net
