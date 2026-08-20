@@ -28,7 +28,7 @@ https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 - On **Debian-based** Linux distributions **(Ubuntu, Linux Mint,...)**, you can install it using a **.deb** file. Open the terminal where the file is located and run this command:
 **sudo apt install ./astro-nex-dark-v2.1.deb**
 
-- On **Arch-based** Linux distributions **(Cachy, Manjaro, Endeavour,...)** you can install it via **AUR: yay -S astronex**
+- On **Arch-based** Linux distributions **(Cachy, Manjaro, Endeavour,...)** you can install it via AUR: **yay -S astronex**
 
 
 ## Other links of interest
