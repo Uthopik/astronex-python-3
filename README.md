@@ -16,7 +16,7 @@ In the ‘Releases’ section, you’ll find four files:
 
 https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
-## Instalation
+## Installation
 
 - On Windows, simply double-click the file and, if prompted for permission, grant it.
 
