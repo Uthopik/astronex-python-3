@@ -1,6 +1,6 @@
 # Astro-Nex (Python 3 / GTK3)
 
-Astronex is a program for calculating and drawing astrological charts according to the API Method. Used in Huber method. Python 3 version.
+Astronex is an astrology program for calculating and drawing charts according to the API Method. Used in Huber method. Python 3 version.
 
 Under **Settings -------> Colours**, you can switch the interface between Light and Dark Mode.
 
