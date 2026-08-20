@@ -1,7 +1,6 @@
 # Astro-Nex (Python 3 / GTK3)
 
-Astro-Nex es un programa de cálculo y dibujo de cartas astrológicas según el
-**método API** (Astrologisch-Psychologisches Institut) de Bruno y Louise Huber.
+Astronex is a program for calculating and drawing astrological charts according to the API Method. Used in Huber method. Python 3 version.
 
 Esta versión está migrada a **Python 3.12** con **GTK3** (vía PyGObject) y
 **Swiss Ephemeris** (vía pyswisseph). Reemplaza la versión original de
