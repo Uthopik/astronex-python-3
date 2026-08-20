@@ -1,0 +1,11 @@
+# Instalación nativa: instala PyGObject y pycairo DESDE APT (python3-gi,
+# python3-gi-cairo, python3-cairo) y crea el venv con --system-site-packages.
+# En Ubuntu 24.04/26.04 compilar PyGObject/pycairo con pip es frágil; con
+# --system-site-packages pip los ve ya satisfechos y solo compila pyswisseph.
+# (En Docker no aplica: la imagen ya trae todo.) Ver INSTALACION.md, paso B.
+PyGObject>=3.42
+pycairo>=1.20
+pyswisseph>=2.10
+configobj>=5.0
+tzdata>=2024.1
+Pillow>=10.0

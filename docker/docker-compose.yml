@@ -1,0 +1,24 @@
+services:
+  astronex-py3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: astronex-py3
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp}
+      - PULSE_SERVER=${PULSE_SERVER:-}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XDG_RUNTIME_DIR:-/tmp}:${XDG_RUNTIME_DIR:-/tmp}:rw
+      - ..:/home/astronex/app
+      - astronex-py3-data:/home/astronex/.Astronex
+      - ./fonts:/home/astronex/.fonts
+    stdin_open: true
+    tty: true
+
+volumes:
+  astronex-py3-data:
