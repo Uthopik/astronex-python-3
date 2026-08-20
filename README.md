@@ -2,6 +2,8 @@
 
 Astronex is a program for calculating and drawing astrological charts according to the API Method. Used in Huber method. Python 3 version.
 
+Under Settings -------> Colours, you can switch the interface between Light and Dark Mode.
+
 In the ‘Releases’ section, you’ll find four files:
 
 ## Windows
