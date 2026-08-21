@@ -40,4 +40,6 @@ https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
 - The project’s official website: (https://www.astro-nex.net)
 - Isaiass18’s Python 3 version of Astronex: (https://github.com/isaiass18/Astro-Nex-Python-3)
+- https://escuelahuber.org/
+- https://www.astrologiaespecial.com/
 
