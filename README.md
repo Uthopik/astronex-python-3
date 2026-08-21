@@ -5,10 +5,11 @@
 Astronex is an astrology program for calculating and drawing charts according to the API Method. Used in Huber method. Python 3 version.
 
 # Light/Dark mode
+<img src="img/light-dark.png" alt="splash" width="100%">
 
-Under **Settings -------> Colours**, you can switch the interface between Light and Dark Mode.
+Under **Settings -------> Colours**, you can switch the interface between **Light** and **Dark** Mode.
 
-In the **‘Releases’** section, you’ll find four files:
+# In the **‘Releases’** section, you’ll find four files for Windows and Linux:
 
 ## Windows
 
