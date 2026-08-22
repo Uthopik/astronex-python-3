@@ -42,4 +42,3 @@ https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 - Isaiass18’s Python 3 version of Astronex: (https://github.com/isaiass18/Astro-Nex-Python-3)
 - Website of **Gabriel Jorba**, an astrologer specialising in the **Huber Method** (https://www.astrologiaespecial.com)
 - https://escuelahuber.org/
-
