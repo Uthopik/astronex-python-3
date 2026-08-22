@@ -43,4 +43,4 @@ https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 - Website of **Gabriel Jorba**, an astrologer specialising in the **Huber Method** (https://www.astrologiaespecial.com)
 - https://escuelahuber.org/
 
-<img src="img/astros.png" alt="splash" width="100%">
+<img src="img/astros2.png" alt="splash" width="100%">
