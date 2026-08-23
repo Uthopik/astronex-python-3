@@ -9,17 +9,17 @@ Astronex is an astrology program for calculating and drawing charts according to
 
 Under **Settings -------> Colours**, you can switch the interface between **Light** and **Dark** Mode.
 
-# In the **‘Releases’** section, you’ll find four files for Windows and Linux:
+> ## In the **‘Releases’** section, you’ll find four files for Windows and Linux:
 
 ## Windows
 
-- **Astro-Nex-Dark-v2.1-setup.exe** (Windows installer)
-- **Astro-Nex-Portable.exe** (Portable version)
+- **Astro-Nex-Dark-v2.1-setup.exe** (Windows installer) **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Dark-v2.1-setup.exe)**
+- **Astro-Nex-Portable.exe** (Portable version) **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Portable.exe)**
 
 ## Linux
 
-- **Astro-Nex-Dark-v2.1.AppImage**
-- **astro-nex-dark-v2.1.deb**
+- **Astro-Nex-Dark-v2.1.AppImage** **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Dark-v2.1.AppImage)**
+- **astro-nex-dark-v2.1.deb** **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/astro-nex-dark-v2.1.deb)**
 
 https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1
 
