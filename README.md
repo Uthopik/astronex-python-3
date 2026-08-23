@@ -7,7 +7,11 @@ Astronex is an astrology program for calculating and drawing charts according to
 # Light/Dark mode
 <img src="img/light-dark.png" alt="splash" width="100%">
 
-Under **Settings -------> Colours**, you can switch the interface between **Light** and **Dark** Mode.
+> Under **Settings -------> Colours**, you can switch the interface between **Light** and **Dark** Mode.
+
+<p align="center">
+  <img src="img/darkmode.png" alt="darkmode" width="50%">
+</p>
 
 > ## In the **['Releases'](https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1)** section, you’ll find four files for Windows and Linux:
 
