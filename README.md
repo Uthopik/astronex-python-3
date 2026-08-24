@@ -47,6 +47,13 @@ sudo apt install ./astro-nex-dark-v2.1.deb
 ```bash
 yay -S astronex
 ```
+## Source code
+
+- **[New Source Code of Astronex in python 3](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/astronex-dark-py3-v2.1.tar.gz)**
+
+- **[Old Source Code of Astronex in python 2](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/astronex-py2-v1.2.tar.gz)**
+
+- **[Old Windows Installer v1.2](https://github.com/Uthopik/astronex-appimage/releases/download/v1.2/Astro-Nex-1.2.3p.exe)**
 
 ## Other links of interest
 
