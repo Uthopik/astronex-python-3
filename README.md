@@ -20,7 +20,7 @@ Astronex is an astrology program for calculating and drawing charts according to
 - **Astro-Nex-Dark-v2.1-setup.exe** (Windows installer) **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Dark-v2.1-setup.exe)**
 - **Astro-Nex-Portable.exe** (Portable version) **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Portable.exe)**
 
-> ⚠️ There may be download issues with an unknown **.exe** on **Windows**, in **Chromium based** browsers. In that case, please download the **.zip** file. **[Here](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex-Dark-v2.1.zip)**
+> ⚠️ There may be download issues with an unknown **.exe** on **Windows**, in **Chromium based** browsers. In that case, please **[download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex-Dark-v2.1.zip)** the **.zip** file. **[Here](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex-Dark-v2.1.zip)**
 
 ## Linux
 
