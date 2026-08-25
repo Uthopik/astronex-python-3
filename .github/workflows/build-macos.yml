@@ -1,40 +1,43 @@
-name: Build macOS DMG
+name: Build macOS DMG (ARM64)
 
 on:
   push:
     tags:
-      - 'v*' # Se ejecuta automáticamente cuando creas un tag (ej. v2.1)
-  workflow_dispatch: # Permite ejecutar la compilación manualmente desde GitHub
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build-macos:
-    runs-on: macos-13 # Utiliza runners Intel para máxima compatibilidad via Rosetta 2
+    # Usamos macos-14 que ejecuta nativamente en procesadores Apple Silicon (ARM64)
+    runs-on: macos-14
 
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Configurar Python NATIVO ARM64
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          architecture: 'arm64'
 
-      - name: Instalar dependencias de sistema (GTK3 y Cairo)
+      - name: Instalar dependencias de sistema (GTK3 y Cairo para ARM64)
         run: |
           brew update
           brew install gtk+3 cairo pygobject3 adwaita-icon-theme
 
-      - name: Instalar dependencias de Python y empaquetadores
+      - name: Instalar dependencias de Python
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller dmgbuild configobj pillow tzdata
-          # Instalar pyswisseph desde fuente
+          # pyswisseph se compilará directamente para ARM64 en este runner
           pip install pyswisseph
 
-      - name: Crear ejecutable/bundle .app con PyInstaller
+      - name: Crear paquete .app nativo ARM64 con PyInstaller
         run: |
           pyinstaller --noconfirm --onedir --windowed \
             --name "Astro-Nex" \
+            --target-arch arm64 \
             --add-data "astronex/resources/Astro-Nex.ttf:astronex/resources" \
             --add-data "astronex/resources/astronex.png:astronex/resources" \
             --add-data "astronex/locale:astronex/locale" \
@@ -44,11 +47,10 @@ jobs:
 
       - name: Generar el archivo .dmg
         run: |
-          pip install dmgbuild
-          dmgbuild -s -settings-s "Astro-Nex" dist/Astro-Nex.app dist/Astro-Nex.dmg
+          dmgbuild -s -settings-s "Astro-Nex" dist/Astro-Nex.app dist/Astro-Nex-ARM64.dmg
 
       - name: Subir el .dmg como Artefacto de GitHub
         uses: actions/upload-artifact@v4
         with:
-          name: Astro-Nex-macOS-DMG
-          path: dist/Astro-Nex.dmg
+          name: Astro-Nex-macOS-ARM64-DMG
+          path: dist/Astro-Nex-ARM64.dmg
