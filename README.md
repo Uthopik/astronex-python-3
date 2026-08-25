@@ -27,6 +27,12 @@ Astronex is an astrology program for calculating and drawing charts according to
 - **Astro-Nex-Dark-v2.1.AppImage** **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Dark-v2.1.AppImage)**
 - **astro-nex-dark-v2.1.deb** **[Download](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/astro-nex-dark-v2.1.deb)**
 
+## macOS
+
+- **Astro-Nex-v2.0-macOS-arm64.dmg** **[Download](https://github.com/isaiass18/Astro-Nex-Python-3/releases/download/v2.0/Astro-Nex-v2.0-macOS-arm64.dmg)**
+
+> ⚠️ I don’t have a version for **macOS** at the moment. I’m providing **[Isaiass18](https://github.com/isaiass18/Astro-Nex-Python-3)**’s version, which doesn’t have a **dark mode**. His build only works on Macs with an Apple Silicon processor: M1, M2, M3, M4 or later, and macOS 26.0 or later.
+
 
 ## Installation
 
