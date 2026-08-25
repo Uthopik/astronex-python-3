@@ -22,32 +22,36 @@ jobs:
 
       - name: Instalar dependencias de sistema con Homebrew
         run: |
-          # Forzar la instalación de dependencias GTK3 sin bloquear por archivos existentes
           brew update
           brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config || brew link --overwrite gtk+3 cairo pygobject3
 
       - name: Instalar dependencias de Python
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller dmgbuild configobj pillow tzdata
+          pip install pyinstaller configobj pillow tzdata
           pip install pyswisseph
 
-      - name: Crear paquete .app con PyInstaller
+      - name: Crear paquete .app completo con PyInstaller
         run: |
+          # Vincular librerías dinámicas de Homebrew para que PyInstaller las arrastre
+          export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+          export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig:$PKG_CONFIG_PATH"
+
           pyinstaller --noconfirm --onedir --windowed \
             --name "Astro-Nex" \
             --target-arch arm64 \
             --add-data "astronex/resources/Astro-Nex.ttf:astronex/resources" \
             --add-data "astronex/resources/astronex.png:astronex/resources" \
             --add-data "astronex/locale:astronex/locale" \
-            --collect-all gi \
-            --collect-all cairo \
+            --collect-binaries gi \
+            --collect-binaries cairo \
+            --collect-data gi \
+            --collect-data cairo \
             nex.py
 
-      - name: Generar el archivo .dmg
+      - name: Generar el archivo .dmg directo con hdiutil
         run: |
-          # Crear la imagen DMG a partir del paquete .app generado
-          dmgbuild -s /dev/null "Astro-Nex" dist/Astro-Nex-ARM64.dmg -s - || hdiutil create -volname "Astro-Nex" -srcfolder dist/Astro-Nex.app -ov -format UDZO dist/Astro-Nex-ARM64.dmg
+          hdiutil create -volname "Astro-Nex" -srcfolder dist/Astro-Nex.app -ov -format UDZO dist/Astro-Nex-ARM64.dmg
 
       - name: Subir el .dmg como Artefacto de GitHub
         uses: actions/upload-artifact@v4
