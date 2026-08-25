@@ -8,7 +8,6 @@ on:
 
 jobs:
   build-macos:
-    # Usamos macos-14 que ejecuta nativamente en procesadores Apple Silicon (ARM64)
     runs-on: macos-14
 
     steps:
@@ -21,19 +20,19 @@ jobs:
           python-version: '3.11'
           architecture: 'arm64'
 
-      - name: Instalar dependencias de sistema (GTK3 y Cairo para ARM64)
+      - name: Instalar dependencias de sistema con Homebrew
         run: |
+          # Forzar la instalación de dependencias GTK3 sin bloquear por archivos existentes
           brew update
-          brew install gtk+3 cairo pygobject3 adwaita-icon-theme
+          brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config || brew link --overwrite gtk+3 cairo pygobject3
 
       - name: Instalar dependencias de Python
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller dmgbuild configobj pillow tzdata
-          # pyswisseph se compilará directamente para ARM64 en este runner
           pip install pyswisseph
 
-      - name: Crear paquete .app nativo ARM64 con PyInstaller
+      - name: Crear paquete .app con PyInstaller
         run: |
           pyinstaller --noconfirm --onedir --windowed \
             --name "Astro-Nex" \
@@ -47,7 +46,8 @@ jobs:
 
       - name: Generar el archivo .dmg
         run: |
-          dmgbuild -s -settings-s "Astro-Nex" dist/Astro-Nex.app dist/Astro-Nex-ARM64.dmg
+          # Crear la imagen DMG a partir del paquete .app generado
+          dmgbuild -s /dev/null "Astro-Nex" dist/Astro-Nex-ARM64.dmg -s - || hdiutil create -volname "Astro-Nex" -srcfolder dist/Astro-Nex.app -ov -format UDZO dist/Astro-Nex-ARM64.dmg
 
       - name: Subir el .dmg como Artefacto de GitHub
         uses: actions/upload-artifact@v4
