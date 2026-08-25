@@ -20,48 +20,88 @@ jobs:
           python-version: '3.11'
           architecture: 'arm64'
 
-      - name: Instalar dependencias de sistema con Homebrew
+      - name: Instalar dependencias del sistema con Homebrew
         run: |
           brew update
-          brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config || brew link --overwrite gtk+3 cairo pygobject3
+          brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config expat harfbuzz freetype graphite2
 
-      - name: Instalar dependencias de Python
+      - name: Preparar entorno virtual con System Site Packages
         run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller configobj pillow tzdata
+          # Replicamos el aislamiento con acceso a las librerías de Homebrew
+          python -m venv --system-site-packages .venv
+          source .venv/bin/activate
+          pip install --upgrade pip setuptools wheel pyinstaller pytz configobj Pillow
           pip install pyswisseph
+          pip install -e .
 
-      - name: Crear paquete .app completo con PyInstaller
+      - name: Generar icono .icns para macOS
         run: |
-          # Incluir manualmente las dylib clave de GTK3 y Homebrew dentro de la app
-          pyinstaller --noconfirm --onedir --windowed \
-            --name "Astro-Nex" \
-            --target-arch arm64 \
-            --add-data "astronex/resources/Astro-Nex.ttf:astronex/resources" \
-            --add-data "astronex/resources/astronex.png:astronex/resources" \
-            --add-data "astronex/locale:astronex/locale" \
-            --add-binary "/opt/homebrew/lib/libgtk-3.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libcairo.2.dylib:." \
-            --add-binary "/opt/homebrew/lib/libgdk-3.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libpango-1.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libgobject-2.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libglib-2.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libgio-2.0.dylib:." \
-            --add-binary "/opt/homebrew/lib/libgdk_pixbuf-2.0.dylib:." \
+          source .venv/bin/activate
+          mkdir -p build/Astro-Nex.iconset
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from PIL import Image
+
+          source = Image.open("astronex/resources/nex.ico").convert("RGBA")
+          iconset = Path("build/Astro-Nex.iconset")
+          for size in (16, 32, 128, 256, 512):
+              for pixels, suffix in ((size, ""), (size * 2, "@2x")):
+                  image = source.resize((pixels, pixels), Image.Resampling.LANCZOS)
+                  image.save(iconset / f"icon_{size}x{size}{suffix}.png")
+          PY
+          iconutil -c icns build/Astro-Nex.iconset -o build/Astro-Nex.icns
+
+      - name: Crear paquete con PyInstaller
+        run: |
+          source .venv/bin/activate
+          pyinstaller --noconfirm --clean --windowed \
+            --name Astro-Nex \
+            --icon "build/Astro-Nex.icns" \
+            --osx-bundle-identifier org.astronex.app \
+            --hidden-import pysw \
+            --hidden-import _pysw \
+            --hidden-import PIL.Image \
+            --hidden-import PIL.ImageOps \
             --collect-all gi \
             --collect-all cairo \
+            --add-data "astronex/resources:astronex/resources" \
+            --add-data "astronex/db:astronex/db" \
+            --add-data "astronex/locale:astronex/locale" \
             nex.py
 
-      - name: Verificar tamaño del bundle .app
+      - name: Ajustar parches de HarfBuzz y Expat (Rpath macOS)
+        run: |
+          source .venv/bin/activate
+          APP_PATH="dist/Astro-Nex.app"
+          FRAMEWORKS_DIR="$APP_PATH/Contents/Frameworks"
+          HARFBUZZ_BUNDLE="$FRAMEWORKS_DIR/PIL/.dylibs/libharfbuzz.0.dylib"
+
+          # Reemplazar libharfbuzz de Pillow por la de Homebrew si existe
+          HARFBUZZ_PREFIX=$(brew --prefix harfbuzz)
+          FREETYPE_PREFIX=$(brew --prefix freetype)
+          if [ -f "$HARFBUZZ_BUNDLE" ]; then
+            cp "$HARFBUZZ_PREFIX/lib/libharfbuzz.0.dylib" "$HARFBUZZ_BUNDLE"
+            install_name_tool -id @rpath/libharfbuzz.0.dylib "$HARFBUZZ_BUNDLE" || true
+            install_name_tool -change "$FREETYPE_PREFIX/lib/libfreetype.6.dylib" @loader_path/libfreetype.6.dylib "$HARFBUZZ_BUNDLE" || true
+            install_name_tool -change "$(brew --prefix glib)/lib/libglib-2.0.0.dylib" @rpath/libglib-2.0.0.dylib "$HARFBUZZ_BUNDLE" || true
+            install_name_tool -change "$(brew --prefix graphite2)/lib/libgraphite2.3.dylib" @rpath/libgraphite2.3.dylib "$HARFBUZZ_BUNDLE" || true
+          fi
+
+      - name: Firmado ad-hoc de la aplicación
+        run: |
+          codesign --force --deep --sign - "dist/Astro-Nex.app"
+
+      - name: Comprobar el tamaño del bundle generado
         run: |
           du -sh dist/Astro-Nex.app
 
       - name: Generar el archivo .dmg directo con hdiutil
         run: |
-          hdiutil create -volname "Astro-Nex" -srcfolder dist/Astro-Nex.app -ov -format UDZO dist/Astro-Nex-ARM64.dmg
+          hdiutil create -ov -volname "Astro-Nex" -srcfolder dist/Astro-Nex.app -format UDZO dist/Astro-Nex-v2.0-macOS-arm64.dmg
 
       - name: Subir el .dmg como Artefacto de GitHub
         uses: actions/upload-artifact@v4
         with:
           name: Astro-Nex-macOS-ARM64-DMG
-          path: dist/Astro-Nex-ARM64.dmg
+          path: dist/Astro-Nex-v2.0-macOS-arm64.dmg
