@@ -33,21 +33,28 @@ jobs:
 
       - name: Crear paquete .app completo con PyInstaller
         run: |
-          # Vincular librerías dinámicas de Homebrew para que PyInstaller las arrastre
-          export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
-          export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig:$PKG_CONFIG_PATH"
-
+          # Incluir manualmente las dylib clave de GTK3 y Homebrew dentro de la app
           pyinstaller --noconfirm --onedir --windowed \
             --name "Astro-Nex" \
             --target-arch arm64 \
             --add-data "astronex/resources/Astro-Nex.ttf:astronex/resources" \
             --add-data "astronex/resources/astronex.png:astronex/resources" \
             --add-data "astronex/locale:astronex/locale" \
-            --collect-binaries gi \
-            --collect-binaries cairo \
-            --collect-data gi \
-            --collect-data cairo \
+            --add-binary "/opt/homebrew/lib/libgtk-3.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libcairo.2.dylib:." \
+            --add-binary "/opt/homebrew/lib/libgdk-3.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libpango-1.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libgobject-2.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libglib-2.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libgio-2.0.dylib:." \
+            --add-binary "/opt/homebrew/lib/libgdk_pixbuf-2.0.dylib:." \
+            --collect-all gi \
+            --collect-all cairo \
             nex.py
+
+      - name: Verificar tamaño del bundle .app
+        run: |
+          du -sh dist/Astro-Nex.app
 
       - name: Generar el archivo .dmg directo con hdiutil
         run: |
