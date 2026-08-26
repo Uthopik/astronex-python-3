@@ -96,10 +96,24 @@ from astronex import countries
 from astronex.config import read_config
 from astronex.extensions.path import path
 
-lang_es = gettext.translation('astronex', './astronex/locale', languages=['es'])
-lang_en = gettext.translation('astronex', './astronex/locale', languages=['en'])
-lang_ca = gettext.translation('astronex', './astronex/locale', languages=['ca'])
-lang_de = gettext.translation('astronex', './astronex/locale', languages=['de'])
+# --- RESOLUCIÓN DINÁMICA DE RUTAS DE TRADUCCIÓN (gettext) ---
+if getattr(sys, 'frozen', False):
+    # Si la app está empaquetada con PyInstaller en macOS/Linux
+    base_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+    locale_dir = os.path.join(base_dir, 'astronex', 'locale')
+    if not os.path.exists(locale_dir):
+        locale_dir = os.path.join(base_dir, 'locale')
+else:
+    # Si se ejecuta desde el código fuente
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    locale_dir = os.path.join(base_dir, 'astronex', 'locale')
+    if not os.path.exists(locale_dir):
+        locale_dir = os.path.join(base_dir, 'locale')
+
+lang_es = gettext.translation('astronex', locale_dir, languages=['es'], fallback=True)
+lang_en = gettext.translation('astronex', locale_dir, languages=['en'], fallback=True)
+lang_ca = gettext.translation('astronex', locale_dir, languages=['ca'], fallback=True)
+lang_de = gettext.translation('astronex', locale_dir, languages=['de'], fallback=True)
 langs = {'en': lang_en, 'es': lang_es, 'ca': lang_ca, 'de': lang_de}
 
 version = "2.1"
