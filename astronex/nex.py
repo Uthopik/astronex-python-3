@@ -11,9 +11,23 @@ gi.require_version('PangoCairo', '1.0')
 from gi.repository import PangoFT2, PangoCairo
 
 def register_astro_font(appath):
-    """En macOS no realizamos registro por código; PyInstaller y Pango 
-    cargan la fuente desde los recursos empaquetados."""
-    pass
+    """En macOS no ejecutamos llamadas dinámicas de Pango; el sistema escanea 
+    la fuente automáticamente desde el bundle gracias a Info.plist."""
+    if sys.platform == 'darwin':
+        return
+
+    try:
+        from gi.repository import PangoCairo
+        fontmap = PangoCairo.FontMap.get_default()
+        possible_paths = [
+            os.path.join(appath, "astronex", "resources", "Astro-Nex.ttf"),
+            os.path.join(appath, "resources", "Astro-Nex.ttf")
+        ]
+        font_path = next((p for p in possible_paths if os.path.exists(p)), None)
+        if font_path and hasattr(fontmap, 'add_font_file'):
+            fontmap.add_font_file(font_path)
+    except Exception:
+        pass
 
 def _setup_and_update_tzdata():
     """Configura tzdata de PyPI como fuente de zonas horarias y lo actualiza
