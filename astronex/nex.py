@@ -6,11 +6,11 @@ import atexit
 import gi
 
 gi.require_version('PangoFT2', '1.0')
-from gi.repository import PangoFT2
+gi.require_version('PangoCairo', '1.0')
+from gi.repository import PangoFT2, PangoCairo
 
 def register_astro_font(appath):
     """Registra dinamicamente Astro-Nex.ttf en el mapa de fuentes de Pango."""
-    # Base dir para PyInstaller empaquetado
     base_dir = getattr(sys, '_MEIPASS', appath)
 
     possible_paths = [
@@ -21,7 +21,7 @@ def register_astro_font(appath):
         os.path.expanduser("~/Library/Fonts/Astro-Nex.ttf"),
         os.path.expanduser("~/.fonts/Astro-Nex.ttf")
     ]
-    
+
     font_path = None
     for p in possible_paths:
         if os.path.exists(p):
@@ -29,7 +29,8 @@ def register_astro_font(appath):
             break
 
     if font_path:
-        fontmap = PangoFT2.FontMap.get_default()
+        # PangoCairo proporciona el mapa de fuentes activo del sistema GTK
+        fontmap = PangoCairo.FontMap.get_default()
         fontmap.add_font_file(font_path)
         print(f"[OK] Fuente Astro-Nex cargada dinamicamente desde: {font_path}")
     else:
