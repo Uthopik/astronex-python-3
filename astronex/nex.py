@@ -322,10 +322,3 @@ def _early_apply_darkmode(home):
     val = conf.get('DEFAULT', {}).get('darkmode', 'false')
     if str(val).lower() in ('true', '1', 'yes'):
         os.environ['GTK_THEME'] = 'Adwaita:dark'
-
-
-def main(appath, console=False):
-    check_home_dir(appath)
-    _early_apply_darkmode(home_dir)
-    app = application(appath)
-    app.run()
