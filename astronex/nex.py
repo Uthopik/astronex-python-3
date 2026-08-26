@@ -143,16 +143,24 @@ def check_home_dir(appath):
     if not path.exists(ephepath):
         path.mkdir(ephepath)
         readme_src = path.joinpath(appath, "astronex/resources/README")
+        if not path.exists(readme_src):
+            readme_src = path.joinpath(appath, "resources/README")
         if path.exists(readme_src):
             path.copy(readme_src, ephepath)
+            
     if ephepath.glob("*.se1"):
         ephe_flag = 2
+        
     if not path.exists(path.joinpath(default_home, default_db)):
         db_src = path.joinpath(appath, "astronex/resources/charts.db")
+        if not path.exists(db_src):
+            db_src = path.joinpath(appath, "resources/charts.db")
         if path.exists(db_src):
             path.copy(db_src, default_home)
 
     cfg_src = path.joinpath(appath, "astronex/resources/cfg.ini")
+    if not path.exists(cfg_src):
+        cfg_src = path.joinpath(appath, "resources/cfg.ini")
     cfg_dst = path.joinpath(default_home, config_file)
     if not path.exists(cfg_dst) and path.exists(cfg_src):
         path.copy(cfg_src, default_home)
@@ -198,9 +206,6 @@ def init_config(homedir, opts, state):
 
 class Splash(Gtk.Window):
     def __init__(self, appath):
-        # TOPLEVEL no decorado en vez de POPUP: en el arranque aun no existe la
-        # ventana principal a la que asociar el splash, y GTK3 avisa de
-        # "temporary window without parent" para los POPUP huerfanos (Errores2 #8).
         Gtk.Window.__init__(self, type=Gtk.WindowType.TOPLEVEL)
         self.set_decorated(False)
         self.set_skip_taskbar_hint(True)
@@ -208,7 +213,12 @@ class Splash(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         img = Gtk.Image()
+        
+        # Buscar en astronex/resources/splash.png o en resources/splash.png
         splashimg = path.joinpath(appath, "astronex/resources/splash.png")
+        if not path.exists(splashimg):
+            splashimg = path.joinpath(appath, "resources/splash.png")
+
         img.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file(str(splashimg)))
         vbox.pack_start(img, True, True, 0)
         self.add(vbox)
