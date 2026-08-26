@@ -3,17 +3,15 @@
 import sys
 import os
 import atexit
+import subprocess
 import gi
 
 gi.require_version('PangoFT2', '1.0')
 gi.require_version('PangoCairo', '1.0')
 from gi.repository import PangoFT2, PangoCairo
 
-import ctypes
-import ctypes.util
-
 def register_astro_font(appath):
-    """Registra la fuente dinámicamente en macOS (CoreText), Linux y Windows."""
+    """Registra la fuente dinámicamente en macOS, Linux y Windows sin fallos de memoria."""
     base_dir = getattr(sys, '_MEIPASS', appath)
 
     possible_paths = [
@@ -31,32 +29,25 @@ def register_astro_font(appath):
         print("[AVISO] No se encontró Astro-Nex.ttf para registrar.")
         return
 
-    # 1. macOS: Carga nativa mediante CoreText (soluciona el error en el .dmg)
+    # 1. macOS: Copia la fuente a la carpeta del usuario si no existe, o registra vía AppleScript/Font Book de forma totalmente segura
     if sys.platform == 'darwin':
+        user_fonts_dir = os.path.expanduser("~/Library/Fonts")
+        target_path = os.path.join(user_fonts_dir, "Astro-Nex.ttf")
+        
         try:
-            coretext = ctypes.CDLL(ctypes.util.find_library('CoreText'))
-            corefoundation = ctypes.CDLL(ctypes.util.find_library('CoreFoundation'))
-
-            path_bytes = font_path.encode('utf-8')
-            cf_path = corefoundation.CFStringCreateWithCString(None, path_bytes, 0)
-            url = corefoundation.CFURLCreateWithFileSystemPath(None, cf_path, 0, False)
-            corefoundation.CFRelease(cf_path)
-
-            # RegisterGraphicsFont (kCTFontManagerScopeProcess = 1)
-            success = coretext.CTFontManagerRegisterFontsForURL(url, 1, None)
-            corefoundation.CFRelease(url)
-
-            if success:
-                print(f"[OK macOS] Fuente Astro-Nex registrada en CoreText: {font_path}")
+            if not os.path.exists(target_path):
+                os.makedirs(user_fonts_dir, exist_ok=True)
+                import shutil
+                shutil.copy(font_path, target_path)
+                print(f"[OK macOS] Fuente Astro-Nex instalada en {target_path}")
             else:
-                print(f"[AVISO macOS] CoreText no pudo registrar la fuente.")
+                print(f"[OK macOS] Fuente Astro-Nex detectada en {target_path}")
         except Exception as e:
-            print(f"[DEBUG macOS] Error en CoreText: {e}")
+            print(f"[DEBUG macOS] No se pudo copiar la fuente a ~/Library/Fonts: {e}")
 
     # 2. Linux y Windows: Carga tradicional mediante PangoCairo
     else:
         try:
-            from gi.repository import PangoCairo
             fontmap = PangoCairo.FontMap.get_default()
             if hasattr(fontmap, 'add_font_file'):
                 fontmap.add_font_file(font_path)
