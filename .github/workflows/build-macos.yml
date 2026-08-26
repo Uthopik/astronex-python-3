@@ -23,14 +23,19 @@ jobs:
       - name: Instalar dependencias del sistema con Homebrew
         run: |
           brew update
-          brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config expat harfbuzz freetype graphite2
+          brew install gtk+3 cairo pygobject3 adwaita-icon-theme pkg-config expat harfbuzz freetype graphite2 gobject-introspection
 
-      - name: Preparar entorno virtual con System Site Packages
+      - name: Preparar entorno virtual y compilar PyGObject
         run: |
-          # Replicamos el aislamiento con acceso a las librerías de Homebrew
-          python -m venv --system-site-packages .venv
+          python -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip setuptools wheel pyinstaller pytz configobj Pillow
+          
+          # Configurar rutas de pkg-config para que pip encuentre PyGObject y Cairo en Homebrew
+          export PKG_CONFIG_PATH="$(brew --prefix)/lib/pkgconfig:$(brew --prefix)/opt/libffi/lib/pkgconfig"
+          
+          # Forzar la instalación de PyGObject y PyCairo dentro de .venv
+          pip install pycairo PyGObject
           pip install pyswisseph
           pip install -e .
 
@@ -56,18 +61,13 @@ jobs:
         run: |
           source .venv/bin/activate
           
-          # Obtener rutas dinámicas de Homebrew en ARM64 (/opt/homebrew)
           BREW_PREFIX=$(brew --prefix)
-          PYTHON_VERSION=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-          SITE_PACKAGES="$BREW_PREFIX/lib/python$PYTHON_VERSION/site-packages"
           GI_TYPELIBS="$BREW_PREFIX/lib/girepository-1.0"
 
           pyinstaller --noconfirm --clean --windowed \
             --name Astro-Nex \
             --icon "build/Astro-Nex.icns" \
             --osx-bundle-identifier org.astronex.app \
-            --paths "$SITE_PACKAGES" \
-            --paths "$BREW_PREFIX/lib" \
             --hidden-import gi \
             --hidden-import gi.repository.Gtk \
             --hidden-import gi.repository.Gdk \
