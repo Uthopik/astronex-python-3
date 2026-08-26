@@ -65,56 +65,92 @@ jobs:
           export DYLD_LIBRARY_PATH="$BREW_PREFIX/lib:$DYLD_LIBRARY_PATH"
           export GI_TYPELIB_PATH="$BREW_PREFIX/lib/girepository-1.0:$GI_TYPELIB_PATH"
 
-          # Crear un archivo Info.plist temporal con ATSApplicationFontsPath habilitado
-          cat <<EOF > build/Info.plist
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-              <key>CFBundleName</key>
-              <string>Astro-Nex</string>
-              <key>CFBundleDisplayName</key>
-              <string>Astro-Nex</string>
-              <key>CFBundleIdentifier</key>
-              <string>org.astronex.app</string>
-              <key>NSHighResolutionCapable</key>
-              <true/>
-              <key>ATSApplicationFontsPath</key>
-              <string>resources</string>
-          </dict>
-          </plist>
+          # Generar el archivo astronex.spec dinámicamente con ATSApplicationFontsPath
+          cat <<EOF > astronex.spec
+          # -*- mode: python ; coding: utf-8 -*-
+          from PyInstaller.utils.hooks import collect_all
+
+          datas = [
+              ('$BREW_PREFIX/lib/girepository-1.0', 'gi_typelibs'),
+              ('astronex/resources', 'astronex/resources'),
+              ('astronex/resources', 'resources'),
+              ('astronex/db', 'astronex/db'),
+              ('astronex/db', 'db'),
+              ('astronex/locale', 'astronex/locale'),
+              ('astronex/locale', 'locale'),
+          ]
+          hiddenimports = [
+              'gi', 'gi.repository.Gtk', 'gi.repository.Gdk', 
+              'gi.repository.GLib', 'gi.repository.GObject', 
+              'gi.repository.Gio', 'gi.repository.Pango', 
+              'gi.repository.PangoCairo', 'gi.repository.GdkPixbuf', 
+              'pyswisseph', 'PIL.Image', 'PIL.ImageOps'
+          ]
+
+          for pkg in ['gi', 'cairo', 'pyswisseph']:
+              d, b, h = collect_all(pkg)
+              datas += d
+              hiddenimports += h
+
+          a = Analysis(
+              ['nex.py'],
+              pathex=['$BREW_PREFIX/lib', '.venv/lib/python3.11/site-packages'],
+              binaries=[],
+              datas=datas,
+              hiddenimports=hiddenimports,
+              hookspath=[],
+              hooksconfig={},
+              runtime_hooks=[],
+              excludes=[],
+              noarchive=False,
+          )
+          pyz = PYZ(a.pure)
+
+          exe = EXE(
+              pyz,
+              a.scripts,
+              [],
+              exclude_binaries=True,
+              name='Astro-Nex',
+              debug=False,
+              bootloader_ignore_signals=False,
+              strip=False,
+              upx=True,
+              console=False,
+              disable_windowed_traceback=False,
+              argv_emulation=False,
+              target_arch=None,
+              codesign_identity=None,
+              entitlements_file=None,
+          )
+
+          coll = COLLECT(
+              exe,
+              a.binaries,
+              a.datas,
+              strip=False,
+              upx=True,
+              upx_exclude=[],
+              name='Astro-Nex',
+          )
+
+          app = BUNDLE(
+              coll,
+              name='Astro-Nex.app',
+              icon='build/Astro-Nex.icns',
+              bundle_identifier='org.astronex.app',
+              info_plist={
+                  'CFBundleName': 'Astro-Nex',
+                  'CFBundleDisplayName': 'Astro-Nex',
+                  'CFBundleIdentifier': 'org.astronex.app',
+                  'NSHighResolutionCapable': 'True',
+                  'ATSApplicationFontsPath': 'resources',
+              },
+          )
           EOF
 
-          pyinstaller --noconfirm --clean --windowed \
-            --name Astro-Nex \
-            --icon "build/Astro-Nex.icns" \
-            --osx-bundle-identifier org.astronex.app \
-            --osx-info-plist "build/Info.plist" \
-            --paths "$BREW_PREFIX/lib" \
-            --paths ".venv/lib/python3.11/site-packages" \
-            --hidden-import gi \
-            --hidden-import gi.repository.Gtk \
-            --hidden-import gi.repository.Gdk \
-            --hidden-import gi.repository.GLib \
-            --hidden-import gi.repository.GObject \
-            --hidden-import gi.repository.Gio \
-            --hidden-import gi.repository.Pango \
-            --hidden-import gi.repository.PangoCairo \
-            --hidden-import gi.repository.GdkPixbuf \
-            --hidden-import pyswisseph \
-            --hidden-import PIL.Image \
-            --hidden-import PIL.ImageOps \
-            --collect-all gi \
-            --collect-all cairo \
-            --collect-all pyswisseph \
-            --add-data "$BREW_PREFIX/lib/girepository-1.0:gi_typelibs" \
-            --add-data "astronex/resources:astronex/resources" \
-            --add-data "astronex/resources:resources" \
-            --add-data "astronex/db:astronex/db" \
-            --add-data "astronex/db:db" \
-            --add-data "astronex/locale:astronex/locale" \
-            --add-data "astronex/locale:locale" \
-            nex.py
+          # Compilar directamente usando el archivo .spec generado
+          pyinstaller --noconfirm --clean astronex.spec
 
       - name: Ajustar parches de HarfBuzz y Expat (Rpath macOS)
         run: |
