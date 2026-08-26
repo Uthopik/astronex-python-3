@@ -9,8 +9,11 @@ gi.require_version('PangoFT2', '1.0')
 gi.require_version('PangoCairo', '1.0')
 from gi.repository import PangoFT2, PangoCairo
 
+import ctypes
+import ctypes.util
+
 def register_astro_font(appath):
-    """Registra dinamicamente Astro-Nex.ttf en el mapa de fuentes de Pango."""
+    """Registra la fuente dinámicamente en macOS (CoreText), Linux y Windows."""
     base_dir = getattr(sys, '_MEIPASS', appath)
 
     possible_paths = [
@@ -22,19 +25,44 @@ def register_astro_font(appath):
         os.path.expanduser("~/.fonts/Astro-Nex.ttf")
     ]
 
-    font_path = None
-    for p in possible_paths:
-        if os.path.exists(p):
-            font_path = p
-            break
+    font_path = next((p for p in possible_paths if os.path.exists(p)), None)
 
-    if font_path:
-        # PangoCairo proporciona el mapa de fuentes activo del sistema GTK
-        fontmap = PangoCairo.FontMap.get_default()
-        fontmap.add_font_file(font_path)
-        print(f"[OK] Fuente Astro-Nex cargada dinamicamente desde: {font_path}")
+    if not font_path:
+        print("[AVISO] No se encontró Astro-Nex.ttf para registrar.")
+        return
+
+    # 1. macOS: Carga nativa mediante CoreText (soluciona el error en el .dmg)
+    if sys.platform == 'darwin':
+        try:
+            coretext = ctypes.CDLL(ctypes.util.find_library('CoreText'))
+            corefoundation = ctypes.CDLL(ctypes.util.find_library('CoreFoundation'))
+
+            path_bytes = font_path.encode('utf-8')
+            cf_path = corefoundation.CFStringCreateWithCString(None, path_bytes, 0)
+            url = corefoundation.CFURLCreateWithFileSystemPath(None, cf_path, 0, False)
+            corefoundation.CFRelease(cf_path)
+
+            # RegisterGraphicsFont (kCTFontManagerScopeProcess = 1)
+            success = coretext.CTFontManagerRegisterFontsForURL(url, 1, None)
+            corefoundation.CFRelease(url)
+
+            if success:
+                print(f"[OK macOS] Fuente Astro-Nex registrada en CoreText: {font_path}")
+            else:
+                print(f"[AVISO macOS] CoreText no pudo registrar la fuente.")
+        except Exception as e:
+            print(f"[DEBUG macOS] Error en CoreText: {e}")
+
+    # 2. Linux y Windows: Carga tradicional mediante PangoCairo
     else:
-        print("[AVISO] No se encontro el archivo Astro-Nex.ttf para registrar en Pango")
+        try:
+            from gi.repository import PangoCairo
+            fontmap = PangoCairo.FontMap.get_default()
+            if hasattr(fontmap, 'add_font_file'):
+                fontmap.add_font_file(font_path)
+                print(f"[OK] Fuente añadida a PangoCairo FontMap: {font_path}")
+        except Exception as e:
+            pass
 
 def _setup_and_update_tzdata():
     """Configura tzdata de PyPI como fuente de zonas horarias y lo actualiza
