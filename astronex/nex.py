@@ -3,7 +3,33 @@
 import sys
 import os
 import atexit
+import gi
 
+gi.require_version('PangoFT2', '1.0')
+from gi.repository import PangoFT2
+
+def register_astro_font(appath):
+    """Registra dinamicamente Astro-Nex.ttf en el mapa de fuentes de Pango."""
+    # Buscar en la carpeta de recursos empaquetada o en desarrollo
+    possible_paths = [
+        os.path.join(appath, "astronex", "resources", "Astro-Nex.ttf"),
+        os.path.join(appath, "resources", "Astro-Nex.ttf"),
+        os.path.expanduser("~/Library/Fonts/Astro-Nex.ttf"),
+        os.path.expanduser("~/.fonts/Astro-Nex.ttf")
+    ]
+    
+    font_path = None
+    for p in possible_paths:
+        if os.path.exists(p):
+            font_path = p
+            break
+
+    if font_path:
+        fontmap = PangoFT2.FontMap.get_default()
+        fontmap.add_font_file(font_path)
+        print(f"[OK] Fuente Astro-Nex cargada dinamicamente desde: {font_path}")
+    else:
+        print("[AVISO] No se encontro el archivo Astro-Nex.ttf para registrar en Pango")
 
 def _setup_and_update_tzdata():
     """Configura tzdata de PyPI como fuente de zonas horarias y lo actualiza
