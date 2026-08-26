@@ -83,6 +83,7 @@ jobs:
             --collect-all gi \
             --collect-all cairo \
             --add-data "$GI_TYPELIBS:gi_typelibs" \
+            --add-data "$GI_TYPELIBS:girepository-1.0" \
             --add-data "astronex/resources:astronex/resources" \
             --add-data "astronex/db:astronex/db" \
             --add-data "astronex/locale:astronex/locale" \
