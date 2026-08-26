@@ -65,10 +65,31 @@ jobs:
           export DYLD_LIBRARY_PATH="$BREW_PREFIX/lib:$DYLD_LIBRARY_PATH"
           export GI_TYPELIB_PATH="$BREW_PREFIX/lib/girepository-1.0:$GI_TYPELIB_PATH"
 
+          # Crear un archivo Info.plist temporal con ATSApplicationFontsPath habilitado
+          cat <<EOF > build/Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleName</key>
+              <string>Astro-Nex</string>
+              <key>CFBundleDisplayName</key>
+              <string>Astro-Nex</string>
+              <key>CFBundleIdentifier</key>
+              <string>org.astronex.app</string>
+              <key>NSHighResolutionCapable</key>
+              <true/>
+              <key>ATSApplicationFontsPath</key>
+              <string>resources</string>
+          </dict>
+          </plist>
+          EOF
+
           pyinstaller --noconfirm --clean --windowed \
             --name Astro-Nex \
             --icon "build/Astro-Nex.icns" \
             --osx-bundle-identifier org.astronex.app \
+            --osx-info-plist "build/Info.plist" \
             --paths "$BREW_PREFIX/lib" \
             --paths ".venv/lib/python3.11/site-packages" \
             --hidden-import gi \
@@ -78,6 +99,7 @@ jobs:
             --hidden-import gi.repository.GObject \
             --hidden-import gi.repository.Gio \
             --hidden-import gi.repository.Pango \
+            --hidden-import gi.repository.PangoCairo \
             --hidden-import gi.repository.GdkPixbuf \
             --hidden-import pyswisseph \
             --hidden-import PIL.Image \
