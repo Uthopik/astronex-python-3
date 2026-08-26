@@ -10,8 +10,12 @@ from gi.repository import PangoFT2
 
 def register_astro_font(appath):
     """Registra dinamicamente Astro-Nex.ttf en el mapa de fuentes de Pango."""
-    # Buscar en la carpeta de recursos empaquetada o en desarrollo
+    # Base dir para PyInstaller empaquetado
+    base_dir = getattr(sys, '_MEIPASS', appath)
+
     possible_paths = [
+        os.path.join(base_dir, "astronex", "resources", "Astro-Nex.ttf"),
+        os.path.join(base_dir, "resources", "Astro-Nex.ttf"),
         os.path.join(appath, "astronex", "resources", "Astro-Nex.ttf"),
         os.path.join(appath, "resources", "Astro-Nex.ttf"),
         os.path.expanduser("~/Library/Fonts/Astro-Nex.ttf"),
@@ -157,6 +161,15 @@ default_db = 'charts.db'
 ephe_path = 'ephe'
 ephe_flag = 4
 
+def main(appath, console=False):
+    # 1. Registrar la fuente Astro-Nex en Pango antes de instanciar GTK
+    register_astro_font(appath)
+
+    # 2. Continuar con la carga normal
+    check_home_dir(appath)
+    _early_apply_darkmode(home_dir)
+    app = application(appath)
+    app.run()
 
 def check_home_dir(appath):
     """Set home dir, copying needed files"""
