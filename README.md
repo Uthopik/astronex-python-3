@@ -51,7 +51,7 @@ sudo apt install ./astro-nex-dark-v2.1.deb
 - On **Arch-based** Linux distributions **(Cachy, Manjaro, Endeavour,...)** you can install it via **AUR**:
 
 ```bash
-sudo pacman -S --needed base-devel python-setuptools yay
+sudo pacman -S --needed base-devel yay
 yay -S astronex
 ```
 ## Source code
