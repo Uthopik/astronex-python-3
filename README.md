@@ -54,6 +54,11 @@ sudo apt install ./astro-nex-dark-v2.1.deb
 sudo pacman -S --needed base-devel yay
 yay -S astronex
 ```
+## Manual in PDF
+
+- **[Manual in English](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-en.pdf)**
+- **[Manual in Spanish](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-es.pdf)**
+
 ## Source code
 
 - **[New Source Code of Astronex in python 3](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/astronex-dark-py3-v2.1.tar.gz)**
