@@ -74,5 +74,6 @@ yay -S astronex
 - Website of **Gabriel Jorba**, an astrologer specialising in the **Huber Method** (https://www.astrologiaespecial.com)
 - https://escuelahuber.org/
 - Morinus astrology (https://github.com/Uthopik/morinus-astrology)
+- Openastro astrology (https://github.com/Uthopik/openastro-astrology)
 
 <img src="img/astros2.png" alt="splash" width="100%">
