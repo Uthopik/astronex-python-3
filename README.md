@@ -75,5 +75,6 @@ yay -S astronex
 - https://escuelahuber.org/
 - Morinus astrology (https://github.com/Uthopik/morinus-astrology)
 - Openastro astrology (https://github.com/Uthopik/openastro-astrology)
+- Maitreya astrology (https://github.com/Uthopik/maitreya-astrology)
 
 <img src="img/astros2.png" alt="splash" width="100%">
