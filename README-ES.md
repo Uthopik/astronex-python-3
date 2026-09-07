@@ -13,7 +13,7 @@ Astronex es un programa de astrología para calcular y dibujar cartas de acuerdo
   <img src="img/darkmode.png" alt="darkmode" width="50%">
 </p>
 
-> ## En el apartado **['Releases,'](https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1)** Encontrarás cinco archivos, para Windows, Linux y macOS:
+> ## En el apartado **['Releases,'](https://github.com/Uthopik/astronex-python-3/releases/tag/v2.1)** Encontrará cinco archivos, para Windows, Linux y macOS:
 
 ## Windows
 
