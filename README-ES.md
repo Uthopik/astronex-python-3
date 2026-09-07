@@ -1,5 +1,7 @@
 <img src="img/astro-nex.png" alt="splash" width="100%">
 
+**[English](https://github.com/Uthopik/astronex-python-3)**
+
 # Astro-Nex (Python 3 / GTK3)
 
 **Astronex** es un programa de astrología para calcular y dibujar cartas de acuerdo al **Método API**. Usado en el método **Huber**. Versión **Python 3**.
