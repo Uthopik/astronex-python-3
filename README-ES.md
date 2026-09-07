@@ -32,7 +32,7 @@ Astronex es un programa de astrología para calcular y dibujar cartas de acuerdo
 - **Astro-Nex-Dark-v2.1-arm64.dmg** **[Descarga](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astro-Nex-Dark-v2.1-arm64.dmg)**
 
 
-## Installation
+## Instalación
 
 - En **Windows**, haga doble click en el archivo, y si le pide permiso, concédaselo.
 
