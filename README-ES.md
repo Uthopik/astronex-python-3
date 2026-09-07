@@ -56,8 +56,8 @@ yay -S astronex
 ```
 ## Manual en PDF
 
-- **[Manual in Inglés](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-en.pdf)**
-- **[Manual in Español](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-es.pdf)**
+- **[Manual en Inglés](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-en.pdf)**
+- **[Manual en Español](https://github.com/Uthopik/astronex-python-3/releases/download/v2.1/Astronex.Manual-es.pdf)**
 
 ## Código Fuente
 
