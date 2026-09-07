@@ -1,8 +1,10 @@
 <img src="img/astro-nex.png" alt="splash" width="100%">
 
+**[Español](https://github.com/Uthopik/astronex-python-3/blob/main/README-ES.md)**
+
 # Astro-Nex (Python 3 / GTK3)
 
-Astronex is an astrology program for calculating and drawing charts according to the API Method. Used in Huber method. Python 3 version.
+**Astronex** is an astrology program for calculating and drawing charts according to the **API Method**. Used in **Huber** method. **Python 3 version.**
 
 # Light/Dark mode
 <img src="img/light-dark.png" alt="splash" width="100%">
