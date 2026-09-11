@@ -79,5 +79,6 @@ yay -S astronex
 - Openastro astrology (https://github.com/Uthopik/openastro-astrology)
 - Maitreya astrology (https://github.com/Uthopik/maitreya-astrology)
 - Oroboros astrology (https://github.com/Uthopik/oroboros-astrology)
+- Zodiac astrology (https://github.com/Uthopik/zodiac-astrology)
 
 <img src="img/astros2.png" alt="splash" width="100%">
