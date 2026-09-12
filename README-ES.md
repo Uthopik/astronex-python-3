@@ -9,7 +9,7 @@
 # Modo Claro/Oscuro
 <img src="img/light-dark.png" alt="splash" width="100%">
 
-> En **Configuración -------> Colores**, puedes cambiar la interfaz entre modo **Claro** y **Oscuro.**
+> En **Configuración -------> Colores**, se puede cambiar la interfaz entre modo **Claro** y **Oscuro.**
 
 <p align="center">
   <img src="img/darkmode.png" alt="darkmode" width="50%">
