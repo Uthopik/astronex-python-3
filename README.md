@@ -1,4 +1,4 @@
-<img src="img/astro-nex.png" alt="splash" width="100%">
+<img src="img/astronex.gif" alt="splash" width="100%">
 
 **[Español](https://github.com/Uthopik/astronex-python-3/blob/main/README-ES.md)**
 
