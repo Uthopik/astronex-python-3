@@ -81,4 +81,4 @@ yay -S astronex
 - Oroboros astrology (https://github.com/Uthopik/oroboros-astrology)
 - Zodiac astrology (https://github.com/Uthopik/zodiac-astrology)
 
-<img src="img/astro3.gif" alt="splash" width="100%">
+<img src="img/astro4.gif" alt="splash" width="100%">
